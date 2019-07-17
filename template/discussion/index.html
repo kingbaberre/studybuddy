@@ -1,0 +1,9 @@
+{% extends 'registration/base'%}
+{% block content %}
+{%if mytopics%}
+  {{topics.topic}}
+  {%else%}
+  <p>nothing to display</p>
+{%endif%}
+
+{% endblock %}
