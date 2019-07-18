@@ -1,10 +1,10 @@
-{% extends 'registration/base.html'%}
+{% extends 'discussion/base.html'%}
 {% block content %}
 <!-- {{form.as_p}} -->
 <div class="container-fluid page__container">
   <div class="row">
     <div class="col-md-3">
-      <a href="#" class="btn btn-success mb-3 btn-block">Create <i class="material-icons">add_circle_outline</i></a>
+      <a class="btn btn-success mb-3 btn-block" data-toggle="modal" data-target="#modal-signup">Create <i class="material-icons">add_circle_outline</i></a>
       <ul class="list-group">
         <li class="list-group-item active"><a href="#" class="text-white">All Threads</a></li>
         <li class="list-group-item"><a href="#">My Posts</a></li>
@@ -33,24 +33,24 @@
       </div>
       <div class="stories-cards mb-4">
         {% if topics %}
-          {% for topics in topics%}
-          <div class="card">
-            <div class="d-flex align-items-center flex-wrap">
-              <div class="m-3">
-                <a href="#" class="d-flex align-items-center avatar text-muted">
-                  <!-- LOGO -->
-                </a>
-              </div>
-              <div class="stories-card__title flex">
-                <h5 class="card-title m-0"><a href="" class="text-body">{{topics.topic}}</a></h5>
-                <small class="text-muted"><a href="#"><strong>{{topics.user}}</strong></a> replied 5 min ago</small>
-              </div>
-              <div class="ml-auto">
-                <div class="badge badge-soft-vuejs badge-pill mr-3">{{topics.category}}</div>
-              </div>
+        {% for topics in topics%}
+        <div class="card">
+          <div class="d-flex align-items-center flex-wrap">
+            <div class="m-3">
+              <a href="#" class="d-flex align-items-center avatar text-muted">
+                <!-- LOGO -->
+              </a>
+            </div>
+            <div class="stories-card__title flex">
+              <h5 class="card-title m-0"><a href="" class="text-body">{{topics.topic}}</a></h5>
+              <small class="text-muted"><a href="#"><strong>{{topics.user}}</strong></a> replied 5 min ago</small>
+            </div>
+            <div class="ml-auto">
+              <div class="badge badge-soft-vuejs badge-pill mr-3">{{topics.category}}</div>
             </div>
           </div>
-          {% endfor %}
+        </div>
+        {% endfor %}
         {% endif %}
       </div>
       <div class="d-flex flex-row align-items-center mb-3">
@@ -70,4 +70,32 @@
     </div>
   </div>
 </div>
+<!-- modal -->
 {% endblock %}
+{% block modal%}
+<div id="modal-signup" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="px-3">
+          <form action="{% url 'discussion'%}">
+            {%csrf_token%}
+            <div class="form-group">
+              <label for="username">Topic Name</label>
+              <input class="form-control" type="text" id="username" required="" name="topic">
+            </div>
+            <div class="form-group">
+              <label for="Contents">Contents</label>
+              <textarea name="contents" class="form-control"></textarea>
+            </div>
+            <input type="hidden" name="user" value="{{user.id}}">
+            <div class="form-group text-center">
+              <button class="btn btn-primary" type="submit">Create</button>
+            </div>
+          </form>
+        </div>
+      </div> <!-- // END .modal-body -->
+    </div> <!-- // END .modal-content -->
+  </div> <!-- // END .modal-dialog -->
+</div> <!-- // END .modal -->
+{% endblock%}
